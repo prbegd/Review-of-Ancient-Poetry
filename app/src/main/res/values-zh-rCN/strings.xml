@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">古诗词复习</string>
+    <string name="next">下一页</string>
+    <string name="previous">上一页</string>
+    <string name="menu_main_about">关于</string>
+</resources>
