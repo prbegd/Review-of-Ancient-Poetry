@@ -4,4 +4,10 @@
     <string name="next">下一页</string>
     <string name="previous">上一页</string>
     <string name="menu_main_about">关于</string>
+    <string name="about_content">2019级1班2号制作&#xA;Github链接: https://github.com/prbegd/Review-of-Ancient-Poetry</string>
+    <string name="ok">好</string>
+    <string name="inetaddress">网址</string>
+    <string name="copy">复制</string>
+    <string name="copied">已复制!</string>
+    <string name="nul">无</string>
 </resources>

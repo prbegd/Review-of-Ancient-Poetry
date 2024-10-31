@@ -9,7 +9,7 @@
         tools:context=".gui.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
@@ -19,6 +19,11 @@
             app:title="@string/app_name"
             app:titleTextColor="@android:color/white"
             app:menu="@menu/menu_main" />
-
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/type_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/main_toolbar"
+            />
 
 </RelativeLayout>

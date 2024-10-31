@@ -5,11 +5,11 @@ import java.util.ArrayList;
 /**
  * 代表一个类型的诗歌
  */
-public class Type {
+public class AncientPoetryType {
     private String name;
     private final ArrayList<AncientPoetry> poemList = new ArrayList<>();
 
-    public Type(String name) {
+    public AncientPoetryType(String name) {
         this.name = name;
     }
 

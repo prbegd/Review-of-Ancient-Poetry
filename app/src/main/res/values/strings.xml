@@ -5,4 +5,10 @@
     <string name="previous">Previous</string>
 
     <string name="menu_main_about">About</string>
+    <string name="about_content">Produced by Class 1 of 2019 2&#xA;Github link: https://github.com/prbegd/Review-of-Ancient-Poetry</string>
+    <string name="ok">OK</string>
+    <string name="inetaddress">Internet Address</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied!</string>
+    <string name="nul">Null</string>
 </resources>
