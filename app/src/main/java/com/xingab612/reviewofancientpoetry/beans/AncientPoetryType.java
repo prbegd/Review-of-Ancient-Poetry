@@ -1,11 +1,15 @@
 package com.xingab612.reviewofancientpoetry.beans;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * 代表一个类型的诗歌
  */
-public class AncientPoetryType {
+public class AncientPoetryType implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 3944136703050029135L;
     private String name;
     private final ArrayList<AncientPoetry> poemList = new ArrayList<>();
 

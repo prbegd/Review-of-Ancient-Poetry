@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Review of Ancient Poetry</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <string name="menu_main_about">About</string>
     <string name="about_content">Produced by Class 1 of 2019 2&#xA;Github link: https://github.com/prbegd/Review-of-Ancient-Poetry</string>
@@ -11,4 +9,15 @@
     <string name="copy">Copy</string>
     <string name="copied">Copied!</string>
     <string name="nul">Null</string>
+    <string name="load_failed">Load Failed</string>
+    <string name="back_ground">Back ground</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_empty_content">Error: Content cannot be empty!</string>
+    <string name="add_type">Add A New Type</string>
+    <string name="delete_tip">Are you sure to delete \"%1$s\"?</string>
+    <string name="delete_tip1">Are tou sure to delete?</string>
+    <string name="delete_success">Delete Success</string>
+    <string name="delete_failed">Delete Failed!!</string>
 </resources>

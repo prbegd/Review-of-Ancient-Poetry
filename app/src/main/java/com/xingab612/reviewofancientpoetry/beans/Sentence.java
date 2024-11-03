@@ -1,12 +1,20 @@
 package com.xingab612.reviewofancientpoetry.beans;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-/** 一个句子,包含标点符号 */
-public class Sentence {
+/**
+ * 一个句子,包含标点符号
+ */
+public class Sentence implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -7756436494992819624L;
     private Kanji[] words; // 句子里的每个字
     private char punctuation; // 句子里的标点符号
+    private String paraphrase; // 句子的意思
     private final ArrayList<Comment> comments = new ArrayList<>(); // 句子里的注释
+
     /**
      * 从字符串中创建一个句子对象。
      *
@@ -28,32 +36,14 @@ public class Sentence {
 
     /**
      * 句子里的注释
+     *
+     * @param start   注释的起始位置索引
+     * @param end     注释的结束位置索引
+     * @param content 注释的内容
      */
-    public static class Comment {
-        // 注释的起始位置索引
-        private final int start;
-        // 注释的结束位置索引
-        private final int end;
-        // 注释的内容
-        private final String content;
-        public Comment(int start, int end, String content) {
-            this.start = start;
-            this.end = end;
-            this.content = content;
-        }
-
-        public int getStart() {
-            return start;
-        }
-
-        public int getEnd() {
-            return end;
-        }
-
-        public String getContent() {
-            return content;
-        }
+    public record Comment(int start, int end, String content) {
     }
+
     public Sentence(Kanji[] words, char punctuation) {
         this.words = words;
         this.punctuation = punctuation;
@@ -77,5 +67,13 @@ public class Sentence {
 
     public void setPunctuation(char punctuation) {
         this.punctuation = punctuation;
+    }
+
+    public String getParaphrase() {
+        return paraphrase;
+    }
+
+    public void setParaphrase(String paraphrase) {
+        this.paraphrase = paraphrase;
     }
 }

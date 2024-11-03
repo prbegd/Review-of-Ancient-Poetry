@@ -1,4 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.application) apply false
+}
+
+ext {
+    sourceCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility1 = sourceCompatibility
+    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility2 = sourceCompatibility1
+    sourceCompatibility3 = JavaVersion.VERSION_21
+    sourceCompatibility = sourceCompatibility
+    targetCompatibility1 = JavaVersion.VERSION_17
 }

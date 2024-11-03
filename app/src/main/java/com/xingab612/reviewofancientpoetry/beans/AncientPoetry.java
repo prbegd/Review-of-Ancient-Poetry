@@ -1,17 +1,25 @@
 package com.xingab612.reviewofancientpoetry.beans;
 
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.widget.ImageView;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * 一首诗词
  */
-public class AncientPoetry {
+public class AncientPoetry implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -147997276505440314L;
     private String title = "标题";
     private String dynasty = "朝代";
     private String author = "作者";
     private final ArrayList<Sentence> sentences = new ArrayList<>();
-    private String paraphrase; // 释义
     private String appreciation; // 赏析
+    private Bitmap background; // 背景图片
 
     public String getTitle() {
         return title;
@@ -42,11 +50,11 @@ public class AncientPoetry {
     }
 
     public String getParaphrase() {
-        return paraphrase;
-    }
-
-    public void setParaphrase(String paraphrase) {
-        this.paraphrase = paraphrase;
+        StringBuilder sb = new StringBuilder();
+        for (Sentence sentence : sentences) {
+            sb.append(sentence.getParaphrase());
+        }
+        return sb.toString();
     }
 
     public String getAppreciation() {
@@ -55,5 +63,13 @@ public class AncientPoetry {
 
     public void setAppreciation(String appreciation) {
         this.appreciation = appreciation;
+    }
+
+    public Bitmap getBackground() {
+        return background;
+    }
+
+    public void setBackground(Bitmap background) {
+        this.background = background;
     }
 }

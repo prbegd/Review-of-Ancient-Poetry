@@ -1,23 +1,26 @@
 package com.xingab612.reviewofancientpoetry.gui;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.MotionEvent;
+import android.view.View;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.carousel.CarouselLayoutManager;
 import com.xingab612.reviewofancientpoetry.R;
-import com.xingab612.reviewofancientpoetry.util.AncientPoetryTypeAdapter;
+import com.xingab612.reviewofancientpoetry.adapters.AncientPoetryTypeAdapter;
+import com.xingab612.reviewofancientpoetry.beans.AncientPoetryType;
+import com.xingab612.reviewofancientpoetry.misc.Data;
+import com.xingab612.reviewofancientpoetry.util.DialogUtil;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private AlertDialog.Builder aboutDialog;
+    public Point touchPoint = new Point();
+    private Data data;
     private RecyclerView recycler;
 
     @Override
@@ -29,19 +32,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText(getString(R.string.inetaddress), "https://github.com/prbegd/Review-of-Ancient-Poetry");
-        aboutDialog = new AlertDialog.Builder(this).setTitle(R.string.menu_main_about).setMessage(R.string.about_content).setPositiveButton(R.string.ok, null).setNegativeButton(R.string.copy, (dialog, witch) -> {
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(this, R.string.copied, Toast.LENGTH_SHORT).show();
-        });
+        data = new Data(this);
 
         recycler = findViewById(R.id.type_list);
         recycler.setLayoutManager(new GridLayoutManager(this, 2));
-        recycler.setAdapter(new AncientPoetryTypeAdapter(this));
+        recycler.setAdapter(new AncientPoetryTypeAdapter(this, data));
     }
 
     public void onAboutClick(MenuItem item) {
-        aboutDialog.create().show();
+        DialogUtil.showAboutDialog(this);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            touchPoint.x = (int) ev.getRawX();
+            touchPoint.y = (int) ev.getRawY();
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public void onAddTypeButtonClicked(View view) {
+        DialogUtil.showAddTypeDialog(this, text -> {
+            data.readData().add(new AncientPoetryType(text));
+            data.save();
+            Objects.requireNonNull(recycler.getAdapter()).notifyItemInserted(data.readData().size() - 1);
+        });
     }
 }
