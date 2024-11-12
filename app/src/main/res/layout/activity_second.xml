@@ -7,22 +7,37 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".gui.SecondActivity">
-
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/second_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:theme="?attr/actionBarTheme"
-            android:minHeight="?attr/actionBarSize"
-            tools:ignore="MissingConstraints"
-            app:title="@string/nul"
-            app:titleTextColor="@android:color/white" />
+            android:id="@+id/second_toolbar_layout"
+            android:theme="@style/toolbar_theme">
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/second_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                tools:ignore="MissingConstraints"
+                app:title="@string/nul"
+                app:titleTextColor="@android:color/white"
+                app:navigationIcon="@drawable/ic_angel_left"/>
+    </com.google.android.material.appbar.AppBarLayout>
     <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/second_toolbar"
-
+            android:layout_below="@id/second_toolbar_layout"
+            android:id="@+id/poetry_list"
             />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/add_type"
+            android:src="@drawable/ic_add"
+            app:fabSize="mini"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="20dp"
+            android:onClick="onAddPoetryButtonClicked" />
 
 </RelativeLayout>

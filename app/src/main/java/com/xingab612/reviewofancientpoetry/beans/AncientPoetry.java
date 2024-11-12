@@ -1,8 +1,6 @@
 package com.xingab612.reviewofancientpoetry.beans;
 
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.widget.ImageView;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -19,7 +17,6 @@ public class AncientPoetry implements Serializable {
     private String author = "作者";
     private final ArrayList<Sentence> sentences = new ArrayList<>();
     private String appreciation; // 赏析
-    private Bitmap background; // 背景图片
 
     public String getTitle() {
         return title;
@@ -65,11 +62,7 @@ public class AncientPoetry implements Serializable {
         this.appreciation = appreciation;
     }
 
-    public Bitmap getBackground() {
-        return background;
-    }
-
-    public void setBackground(Bitmap background) {
-        this.background = background;
+    public AncientPoetry(String title) {
+        this.title = title;
     }
 }

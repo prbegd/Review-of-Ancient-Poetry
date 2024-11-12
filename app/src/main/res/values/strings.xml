@@ -20,4 +20,5 @@
     <string name="delete_tip1">Are tou sure to delete?</string>
     <string name="delete_success">Delete Success</string>
     <string name="delete_failed">Delete Failed!!</string>
+    <string name="add_poetry">Add A New Poetry</string>
 </resources>

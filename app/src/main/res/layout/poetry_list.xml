@@ -4,21 +4,15 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-    <ImageView
-            id="@+id/poetry_list_bg"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:contentDescription="@string/back_ground"
-            android:src="@color/black"/>
     <TextView
-            id="@+id/poetry_list_title"
+            android:id="@+id/poetry_list_title"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:maxLines="1"
             android:gravity="center_vertical"
             android:layout_marginStart="20dp"
-            android:autoSizeMaxTextSize="38sp"
-            android:autoSizeMinTextSize="25sp"
+            android:autoSizeMaxTextSize="25sp"
+            android:autoSizeMinTextSize="20sp"
             android:autoSizeTextType="uniform"
-            android:textColor="@color/white"/>
+            android:textColor="@color/black"/>
 </RelativeLayout>

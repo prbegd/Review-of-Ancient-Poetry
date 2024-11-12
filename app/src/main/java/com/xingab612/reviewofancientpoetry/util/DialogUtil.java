@@ -79,4 +79,18 @@ public class DialogUtil {
                 .setNegativeButton(R.string.cancel, null)
                 .setView(editText).create().show();
     }
+    public static void showAddPoetryDialog(Context c, Consumer<String> listener) {
+        EditText editText = new EditText(c);
+        new AlertDialog.Builder(c).setTitle(R.string.add_poetry)
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    String inputText = editText.getText().toString().trim();
+                    if (!inputText.isEmpty()) {
+                        listener.accept(inputText);
+                    } else {
+                        Toast.makeText(c, R.string.error_empty_content, Toast.LENGTH_SHORT).show(); // 添加错误提示
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .setView(editText).create().show();
+    }
 }

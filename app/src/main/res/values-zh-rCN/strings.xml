@@ -19,4 +19,5 @@
     <string name="delete_tip1">确定要删除吗?</string>
     <string name="delete_success">删除成功</string>
     <string name="delete_failed">删除失败!!</string>
+    <string name="add_poetry">添加新古诗</string>
 </resources>

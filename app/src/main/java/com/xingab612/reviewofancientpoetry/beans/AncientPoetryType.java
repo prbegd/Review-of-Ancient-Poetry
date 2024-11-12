@@ -11,7 +11,7 @@ public class AncientPoetryType implements Serializable {
     @Serial
     private static final long serialVersionUID = 3944136703050029135L;
     private String name;
-    private final ArrayList<AncientPoetry> poemList = new ArrayList<>();
+    private final ArrayList<AncientPoetry> poetryList = new ArrayList<>();
 
     public AncientPoetryType(String name) {
         this.name = name;
@@ -25,7 +25,7 @@ public class AncientPoetryType implements Serializable {
         this.name = name;
     }
 
-    public ArrayList<AncientPoetry> getPoemList() {
-        return poemList;
+    public ArrayList<AncientPoetry> getPoetryList() {
+        return poetryList;
     }
 }

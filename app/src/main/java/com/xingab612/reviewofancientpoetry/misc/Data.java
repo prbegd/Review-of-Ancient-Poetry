@@ -1,21 +1,31 @@
 package com.xingab612.reviewofancientpoetry.misc;
 
 import android.app.Activity;
+import android.content.res.AssetManager;
 
+import com.xingab612.reviewofancientpoetry.beans.AncientPoetry;
 import com.xingab612.reviewofancientpoetry.beans.AncientPoetryType;
-import com.xingab612.reviewofancientpoetry.util.ChineseNumberUtil;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import cn.hutool.core.io.IORuntimeException;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 
 public class Data {
     private final Activity activity;
     private final String fileName = "data.dat";
     private static ArrayList<AncientPoetryType> data;
+    private static final String DEFAULT_DATA_ASSET_PATH = "defaultPoetry.json";
 
     public Data(Activity activity) {
         this.activity = activity;
@@ -38,7 +48,7 @@ public class Data {
         } catch (FileNotFoundException e) {
             writeDefaultData(); // 当文件未找到时写入默认数据
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException("Error reading data file", e);
+            throw new IORuntimeException("读取数据文件时发生错误!!", e);
         }
         return data;
     }
@@ -48,7 +58,7 @@ public class Data {
             oos.writeObject(data);
             Data.data = data;
         } catch (IOException e) {
-            throw new RuntimeException("Error writing data file", e);
+            throw new IORuntimeException("写入数据文件时发生错误!!", e);
         }
     }
 
@@ -63,12 +73,36 @@ public class Data {
 
     private ArrayList<AncientPoetryType> createDefaultData() {
         ArrayList<AncientPoetryType> dataList = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            String grade = ChineseNumberUtil.convert(i + 1);
-            dataList.add(new AncientPoetryType(grade + "年级上册"));
-            dataList.add(new AncientPoetryType(grade + "年级下册"));
-        }
+        JSONObject jsonObject = new JSONObject(readDefaultDataFromAsset());
+        JSONArray typeList = jsonObject.getJSONArray("types");
+        typeList.forEach(type -> {
+            AncientPoetryType poetryType = new AncientPoetryType(((JSONObject) type).getStr("title"));
+            JSONArray poetryList = ((JSONObject) type).getJSONArray("poetry");
+            if (poetryList != null) {
+                ArrayList<AncientPoetry> poetry = poetryType.getPoetryList();
+                poetryList.forEach(poetryObj -> {
+                    AncientPoetry poetryItem = new AncientPoetry(((JSONObject) poetryObj).getStr("title"));
+                    poetry.add(poetryItem);
+                });
+            }
+            dataList.add(poetryType);
+        });
+
         return dataList;
+    }
+
+    private String readDefaultDataFromAsset() {
+        AssetManager assetManager = activity.getAssets();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(assetManager.open(DEFAULT_DATA_ASSET_PATH)))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            throw new IORuntimeException("在读取默认数据文件时发生错误!!", e);
+        }
     }
 }
 
