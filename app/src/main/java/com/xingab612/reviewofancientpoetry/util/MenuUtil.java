@@ -11,8 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import cn.hutool.core.io.IORuntimeException;
 
 public class MenuUtil {
     private MenuUtil() {
@@ -49,7 +53,7 @@ public class MenuUtil {
             }
             method.invoke(field.get(popup), x, y);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("在显示PopupMenu时发生异常!!", e);
         }
         return popup;
     }

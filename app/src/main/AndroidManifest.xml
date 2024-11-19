@@ -13,8 +13,11 @@
             android:theme="@style/Theme.ReviewOfAncientPoetry"
             tools:targetApi="31">
         <activity
+                android:name=".gui.PoetryActivity"
+                android:exported="false" />
+        <activity
                 android:name=".gui.SecondActivity"
-                android:exported="false"/>
+                android:exported="false" />
         <activity
                 android:name=".gui.MainActivity"
                 android:exported="true">

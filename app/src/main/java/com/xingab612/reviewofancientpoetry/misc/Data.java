@@ -2,16 +2,16 @@ package com.xingab612.reviewofancientpoetry.misc;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
+import android.widget.Toast;
 
+import com.xingab612.reviewofancientpoetry.R;
 import com.xingab612.reviewofancientpoetry.beans.AncientPoetry;
 import com.xingab612.reviewofancientpoetry.beans.AncientPoetryType;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,12 +19,14 @@ import java.util.ArrayList;
 
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONTokener;
 
 public class Data {
     private final Activity activity;
-    private final String fileName = "data.dat";
     private static ArrayList<AncientPoetryType> data;
+    private final String fileName = "data.dat";
     private static final String DEFAULT_DATA_ASSET_PATH = "defaultPoetry.json";
 
     public Data(Activity activity) {
@@ -42,6 +44,8 @@ public class Data {
             return data;
         }
 
+        Toast toast = Toast.makeText(activity, activity.getString(R.string.load_dat_tip), Toast.LENGTH_SHORT);
+        toast.show();
         try (FileInputStream fis = activity.openFileInput(fileName);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             data = (ArrayList<AncientPoetryType>) ois.readObject();
@@ -49,6 +53,8 @@ public class Data {
             writeDefaultData(); // 当文件未找到时写入默认数据
         } catch (IOException | ClassNotFoundException e) {
             throw new IORuntimeException("读取数据文件时发生错误!!", e);
+        } finally {
+            toast.cancel();
         }
         return data;
     }
@@ -71,9 +77,17 @@ public class Data {
         writeData(createDefaultData());
     }
 
+    // 创建默认的古诗数据列表
     private ArrayList<AncientPoetryType> createDefaultData() {
         ArrayList<AncientPoetryType> dataList = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject(readDefaultDataFromAsset());
+        AssetManager assetManager = activity.getAssets();
+        JSONObject jsonObject;
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(assetManager.open(DEFAULT_DATA_ASSET_PATH)));
+            jsonObject = new JSONObject(new JSONTokener(reader, new JSONConfig()));
+        } catch (IOException e) {
+            throw new IORuntimeException("在读取默认数据文件时发生错误!!", e);
+        }
         JSONArray typeList = jsonObject.getJSONArray("types");
         typeList.forEach(type -> {
             AncientPoetryType poetryType = new AncientPoetryType(((JSONObject) type).getStr("title"));
@@ -82,6 +96,26 @@ public class Data {
                 ArrayList<AncientPoetry> poetry = poetryType.getPoetryList();
                 poetryList.forEach(poetryObj -> {
                     AncientPoetry poetryItem = new AncientPoetry(((JSONObject) poetryObj).getStr("title"));
+                    String dynasty = ((JSONObject) poetryObj).getStr("dynasty");
+                    if (dynasty != null) {
+                        poetryItem.setDynasty(dynasty);
+                    }
+                    String author = ((JSONObject) poetryObj).getStr("author");
+                    if (author != null) {
+                        poetryItem.setAuthor(author);
+                    }
+                    String content = ((JSONObject) poetryObj).getStr("content");
+                    if (content != null) {
+                        poetryItem.setSentencesFromString(content);
+                    }
+                    String appreciation = ((JSONObject) poetryObj).getStr("appreciation");
+                    if (appreciation != null) {
+                        poetryItem.setAppreciation(appreciation);
+                    }
+                    String paraphrase = ((JSONObject) poetryObj).getStr("paraphrase");
+                    if (paraphrase != null) {
+                        poetryItem.setParaphrase(paraphrase);
+                    }
                     poetry.add(poetryItem);
                 });
             }
@@ -89,20 +123,6 @@ public class Data {
         });
 
         return dataList;
-    }
-
-    private String readDefaultDataFromAsset() {
-        AssetManager assetManager = activity.getAssets();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(assetManager.open(DEFAULT_DATA_ASSET_PATH)))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-            return sb.toString();
-        } catch (IOException e) {
-            throw new IORuntimeException("在读取默认数据文件时发生错误!!", e);
-        }
     }
 }
 

@@ -1,8 +1,13 @@
 package com.xingab612.reviewofancientpoetry.beans;
 
+import android.util.Log;
+
+import org.intellij.lang.annotations.RegExp;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 一个句子,包含标点符号
@@ -11,9 +16,10 @@ public class Sentence implements Serializable {
     @Serial
     private static final long serialVersionUID = -7756436494992819624L;
     private Kanji[] words; // 句子里的每个字
-    private char punctuation; // 句子里的标点符号
-    private String paraphrase; // 句子的意思
+    private Punctuation punctuation; // 句子里的标点符号
     private final ArrayList<Comment> comments = new ArrayList<>(); // 句子里的注释
+    @RegExp
+    public static final String SENTENCE_REGEX = "[一-龥]+" + Punctuation.PUNCTUATION_REGEX;
 
     /**
      * 从字符串中创建一个句子对象。
@@ -23,15 +29,15 @@ public class Sentence implements Serializable {
      * @throws IllegalArgumentException 如果输入的句子字符串不符合要求（即不是仅由中文字符和常用标点符号组成），则抛出此异常。
      */
     public static Sentence fromString(String sentence) {
-        if (!sentence.matches("[一-龥]+[。！？，]")) {
+        if (!sentence.matches(SENTENCE_REGEX)) {
             throw new IllegalArgumentException("非法句子: " + sentence);
         }
-        Kanji[] words = new Kanji[sentence.length()];
-        for (int i = 0; i < sentence.length() - 1; i++) {
-            words[i] = new Kanji(sentence.charAt(i));
+        Kanji[] words = new Kanji[sentence.length() - 1];
+        for (int i = 0; i < words.length; i++) {
+            words[i] = Kanji.of(sentence.charAt(i));
         }
         char punctuation = sentence.charAt(sentence.length() - 1);
-        return new Sentence(words, punctuation);
+        return new Sentence(words, Punctuation.of(punctuation));
     }
 
     /**
@@ -44,7 +50,7 @@ public class Sentence implements Serializable {
     public record Comment(int start, int end, String content) {
     }
 
-    public Sentence(Kanji[] words, char punctuation) {
+    private Sentence(Kanji[] words, Punctuation punctuation) {
         this.words = words;
         this.punctuation = punctuation;
     }
@@ -53,8 +59,12 @@ public class Sentence implements Serializable {
         return words;
     }
 
-    public char getPunctuation() {
+    public Punctuation getPunctuation() {
         return punctuation;
+    }
+
+    public void setPunctuation(Punctuation punctuation) {
+        this.punctuation = punctuation;
     }
 
     public ArrayList<Comment> getComments() {
@@ -65,15 +75,12 @@ public class Sentence implements Serializable {
         this.words = words;
     }
 
-    public void setPunctuation(char punctuation) {
-        this.punctuation = punctuation;
-    }
-
-    public String getParaphrase() {
-        return paraphrase;
-    }
-
-    public void setParaphrase(String paraphrase) {
-        this.paraphrase = paraphrase;
-    }
+//    public String getString() {
+//        StringBuilder sb = new StringBuilder();
+//        for (Kanji word : words) {
+//            sb.append(word.getChar());
+//        }
+//        sb.append(punctuation);
+//        return sb.toString();
+//    }
 }

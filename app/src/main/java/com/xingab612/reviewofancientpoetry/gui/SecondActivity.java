@@ -1,5 +1,6 @@
 package com.xingab612.reviewofancientpoetry.gui;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -67,9 +68,10 @@ public class SecondActivity extends AppCompatActivity {
         list.setAdapter(adapter);
 
         list.setOnItemClickListener((parent, view, position, id) -> {
-            // TODO: show poetry details
-            AncientPoetry poetry = (AncientPoetry) parent.getItemAtPosition(position);
-            // 处理显示诗歌详情的逻辑
+            Intent intent = new Intent(this, PoetryActivity.class);
+            intent.putExtra("type", index);
+            intent.putExtra("index", position);
+            startActivity(intent);
         });
 
         list.setOnItemLongClickListener((parent, view, position, id) -> {

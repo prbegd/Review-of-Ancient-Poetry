@@ -20,4 +20,7 @@
     <string name="delete_success">删除成功</string>
     <string name="delete_failed">删除失败!!</string>
     <string name="add_poetry">添加新古诗</string>
+    <string name="load_dat_tip">正在加载数据, 请稍候...</string>
+    <string name="appreciation">赏析: %1$s</string>
+    <string name="paraphrase">译文: %1$s</string>
 </resources>

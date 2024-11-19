@@ -11,7 +11,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 1
-        versionName "1.0"
+        versionName "0.3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -41,6 +41,12 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    // 自定义打包名称
+    android.applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
+            outputFileName = "ReviewOfAncientPoetry_v${versionName}_${buildType.name}.apk"
+        }
+    }
 }
 
 dependencies {
@@ -59,6 +65,7 @@ dependencies {
     implementation libs.ui.tooling.preview
     implementation libs.material3
     implementation files('E:\\xingxing\\files\\android\\PROJECTS\\ReviewOfAncientPoetry\\lib\\hutool-all-5.8.29.jar')
+    implementation libs.pinyin4j
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
