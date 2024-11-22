@@ -17,7 +17,6 @@ public class Sentence implements Serializable {
     private static final long serialVersionUID = -7756436494992819624L;
     private Kanji[] words; // 句子里的每个字
     private Punctuation punctuation; // 句子里的标点符号
-    private final ArrayList<Comment> comments = new ArrayList<>(); // 句子里的注释
     @RegExp
     public static final String SENTENCE_REGEX = "[一-龥]+" + Punctuation.PUNCTUATION_REGEX;
 
@@ -40,15 +39,7 @@ public class Sentence implements Serializable {
         return new Sentence(words, Punctuation.of(punctuation));
     }
 
-    /**
-     * 句子里的注释
-     *
-     * @param start   注释的起始位置索引
-     * @param end     注释的结束位置索引
-     * @param content 注释的内容
-     */
-    public record Comment(int start, int end, String content) {
-    }
+
 
     private Sentence(Kanji[] words, Punctuation punctuation) {
         this.words = words;
@@ -65,10 +56,6 @@ public class Sentence implements Serializable {
 
     public void setPunctuation(Punctuation punctuation) {
         this.punctuation = punctuation;
-    }
-
-    public ArrayList<Comment> getComments() {
-        return comments;
     }
 
     public void setWords(Kanji[] words) {

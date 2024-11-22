@@ -1,6 +1,6 @@
 package com.xingab612.reviewofancientpoetry.beans;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,6 +20,8 @@ public class AncientPoetry implements Serializable {
     private final ArrayList<Sentence> sentences = new ArrayList<>();
     private String appreciation; // 赏析
     private String paraphrase; // 译文
+
+    private final ArrayList<Comment> comments = new ArrayList<>(); // 句子里的注释
 
     public String getTitle() {
         return title;
@@ -72,6 +74,7 @@ public class AncientPoetry implements Serializable {
     public String getDynastyAndAuthor() {
         return (dynasty == null ? "" : "[" + dynasty + "] ") + (author == null ? "" : author);
     }
+
     public void setSentencesFromString(String sentencesStr) {
         if (sentencesStr == null || sentencesStr.isEmpty()) {
             throw new IllegalArgumentException("The sentences string is empty.");
@@ -81,18 +84,26 @@ public class AncientPoetry implements Serializable {
             sentences.add(Sentence.fromString(sentenceStr.trim()));
         }
     }
-    public void setPinyin(String pinyin) {
-        String[] pinyinArr = pinyin.split(" ");
-        ArrayList<Kanji> kanjiList = new ArrayList<>();
-        for (Sentence sentence : sentences) {
-            kanjiList.addAll(List.of(sentence.getWords()));
-        }
+
+    public void setPinyin(String pinyinStr) {
+        String[] pinyinArr = pinyinStr.split(" ");
+        ArrayList<Kanji> kanjiList = getKanjiList();
         if (kanjiList.size() != pinyinArr.length) {
-            throw new IllegalArgumentException("The number of pinyin and words is not equal.");
+            throw new IllegalArgumentException("The number of pinyin and words is not equal.(at poetry " + title + ", should be " + kanjiList.size() + ",but got " + pinyinArr.length + ")");
         }
 
         for (int i = 0; i < kanjiList.size(); i++) {
-            kanjiList.get(i).setPinyin(Kanji.Pinyin.of(pinyinArr[i]));
+            String s = pinyinArr[i];
+            if (s.equals("/")) {
+                continue;
+            }
+            Kanji.Pinyin pinyin;
+            try {
+                pinyin = Kanji.Pinyin.of(s);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Invalid pinyin in kanji " + (i + 1) + " (" + kanjiList.get(i).getChar() + ") of " + title + "!", e);
+            }
+            kanjiList.get(i).setPinyin(pinyin);
         }
     }
 
@@ -106,5 +117,64 @@ public class AncientPoetry implements Serializable {
             }
         }
         return displayChars;
+    }
+
+    public ArrayList<Kanji> getKanjiList() {
+        ArrayList<Kanji> kanjiList = new ArrayList<>();
+        for (Sentence sentence : sentences) {
+            kanjiList.addAll(List.of(sentence.getWords()));
+        }
+        return kanjiList;
+    }
+
+    public Comment getCommentForKanji(int index) {
+        for (Comment comment : comments) {
+            if (comment.start <= index && comment.end > index) {
+                return comment;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * 注释
+     */
+    public record Comment(int start, int end, String content) implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 52949743042551198L;
+
+        /**
+         * @param start   注释的起始位置索引
+         * @param end     注释的结束位置索引
+         * @param content 注释的内容
+         */
+        public Comment {
+        }
+
+        public String getString(AncientPoetry poetry) {
+            StringBuilder sb = new StringBuilder();
+            ArrayList<Kanji> kanjiList = poetry.getKanjiList();
+            for (int i = start; i < end; i++) {
+                sb.append(kanjiList.get(i).getChar());
+            }
+            return sb.toString();
+        }
+
+        @NonNull
+        public String toString(AncientPoetry poetry) {
+            return "[" + getString(poetry) + "] " + content;
+        }
+
+        @Override
+        public String toString() {
+            return "Comment[" +
+                    "start=" + start + ", " +
+                    "end=" + end + ", " +
+                    "content=" + content + ']';
+        }
     }
 }

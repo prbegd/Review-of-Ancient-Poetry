@@ -3,6 +3,8 @@ package com.xingab612.reviewofancientpoetry.gui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xingab612.reviewofancientpoetry.R;
@@ -18,6 +19,9 @@ import com.xingab612.reviewofancientpoetry.adapters.PoetryContentAdapter;
 import com.xingab612.reviewofancientpoetry.beans.AncientPoetry;
 import com.xingab612.reviewofancientpoetry.managers.PoetryLayoutManager;
 import com.xingab612.reviewofancientpoetry.misc.Data;
+
+import java.util.ArrayList;
+import java.util.StringJoiner;
 
 public class PoetryActivity extends AppCompatActivity {
     private Data data;
@@ -32,6 +36,7 @@ public class PoetryActivity extends AppCompatActivity {
 
         init();
     }
+
     private void init() {
         data = new Data(this);
 
@@ -54,6 +59,7 @@ public class PoetryActivity extends AppCompatActivity {
 
         initView();
     }
+
     private void initView() {
         Toolbar toolbar = findViewById(R.id.poetry_toolbar);
         toolbar.setTitle(poetry.getTitle());
@@ -80,6 +86,21 @@ public class PoetryActivity extends AppCompatActivity {
         TextView paraphraseTextView = findViewById(R.id.poetry_paraphrase);
         if (poetry.getParaphrase() != null && !poetry.getParaphrase().isEmpty()) {
             paraphraseTextView.setText(getString(R.string.paraphrase, poetry.getParaphrase()));
+        }
+
+        ArrayList<AncientPoetry.Comment> comments = poetry.getComments();
+        TextView commentTextView = findViewById(R.id.poetry_comment);
+        if (!comments.isEmpty()) {
+            StringJoiner commentJoiner = new StringJoiner("\n");
+            commentJoiner.add(getString(R.string.comments));
+            for (AncientPoetry.Comment comment : poetry.getComments()) {
+                commentJoiner.add(comment.toString(poetry));
+            }
+            commentTextView.setText(commentJoiner.toString());
+        } else {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) commentTextView.getLayoutParams();
+            params.setMargins(0, -15, 0, -15);
+            commentTextView.setLayoutParams(params);
         }
     }
 

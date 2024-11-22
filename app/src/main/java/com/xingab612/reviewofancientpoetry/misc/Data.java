@@ -116,6 +116,19 @@ public class Data {
                     if (paraphrase != null) {
                         poetryItem.setParaphrase(paraphrase);
                     }
+                    String pinyin = ((JSONObject) poetryObj).getStr("pinyin");
+                    if (pinyin != null) {
+                        poetryItem.setPinyin(pinyin);
+                    }
+                    JSONArray commentList = ((JSONObject) poetryObj).getJSONArray("comments");
+                    if (commentList != null) {
+                        commentList.forEach(commentObj -> {
+                            poetryItem.getComments().add(new AncientPoetry.Comment(
+                                    ((JSONObject) commentObj).getInt("from"),
+                                    ((JSONObject) commentObj).getInt("to"),
+                                    ((JSONObject) commentObj).getStr("content")));
+                        });
+                    }
                     poetry.add(poetryItem);
                 });
             }

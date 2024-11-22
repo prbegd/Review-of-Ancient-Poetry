@@ -23,4 +23,5 @@
     <string name="load_dat_tip">正在加载数据, 请稍候...</string>
     <string name="appreciation">赏析: %1$s</string>
     <string name="paraphrase">译文: %1$s</string>
+    <string name="comments">注释:</string>
 </resources>

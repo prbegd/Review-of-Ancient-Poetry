@@ -12,8 +12,8 @@
       "filters": [],
       "attributes": [],
       "versionCode": 1,
-      "versionName": "0.2.0",
-      "outputFile": "ReviewOfAncientPoetry_v0.2.0_release.apk"
+      "versionName": "0.3.0",
+      "outputFile": "ReviewOfAncientPoetry_v0.3.0_release.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/ReviewOfAncientPoetry_v0.2.0_release.dm"
+        "baselineProfiles/1/ReviewOfAncientPoetry_v0.3.0_release.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/ReviewOfAncientPoetry_v0.2.0_release.dm"
+        "baselineProfiles/0/ReviewOfAncientPoetry_v0.3.0_release.dm"
       ]
     }
   ],

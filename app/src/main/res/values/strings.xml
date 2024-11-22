@@ -24,4 +24,5 @@
     <string name="load_dat_tip">Loading data, please wait...</string>
     <string name="appreciation">Aappreciation: %1$s</string>
     <string name="paraphrase">Paraphrase: %1$s</string>
+    <string name="comments">Comments:</string>
 </resources>

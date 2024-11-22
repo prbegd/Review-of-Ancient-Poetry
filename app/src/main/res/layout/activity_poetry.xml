@@ -70,6 +70,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
+                    android:id="@+id/poetry_comment"
+                    android:textIsSelectable="true"
+                    />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
                     android:id="@+id/poetry_appreciation"
                     android:textIsSelectable="true"/>
         </LinearLayout>

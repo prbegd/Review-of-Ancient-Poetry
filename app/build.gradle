@@ -66,6 +66,7 @@ dependencies {
     implementation libs.material3
     implementation files('E:\\xingxing\\files\\android\\PROJECTS\\ReviewOfAncientPoetry\\lib\\hutool-all-5.8.29.jar')
     implementation libs.pinyin4j
+    implementation libs.happy.bubble
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

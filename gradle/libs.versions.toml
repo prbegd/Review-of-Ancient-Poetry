@@ -13,6 +13,7 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 pinyin4j = "2.5.1"
+happyBubble = "1.2.6"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -35,6 +36,7 @@ ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 pinyin4j = { group = "com.belerweb", name = "pinyin4j", version.ref = "pinyin4j" }
+happy-bubble = { group = "com.github.xujiaji", name = "happy-bubble", version.ref = "happyBubble" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
