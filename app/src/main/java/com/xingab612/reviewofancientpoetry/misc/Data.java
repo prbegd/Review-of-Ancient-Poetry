@@ -73,7 +73,7 @@ public class Data {
         writeData(readData());
     }
 
-    private void writeDefaultData() {
+    public void writeDefaultData() {
         writeData(createDefaultData());
     }
 

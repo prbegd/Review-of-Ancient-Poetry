@@ -1,13 +1,17 @@
 package com.xingab612.reviewofancientpoetry.gui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,10 +28,10 @@ import java.util.ArrayList;
 import java.util.StringJoiner;
 
 public class PoetryActivity extends AppCompatActivity {
-    private Data data;
     private int typeIndex;
     private int index;
     private AncientPoetry poetry;
+    private ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,7 @@ public class PoetryActivity extends AppCompatActivity {
     }
 
     private void init() {
-        data = new Data(this);
+        Data data = new Data(this);
 
         Intent intent = getIntent();
         typeIndex = intent.getIntExtra("type", -1);
@@ -56,6 +60,15 @@ public class PoetryActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Log.d("PoetryActivity", "editActivityResultLauncher result: " + result.getResultCode());
+            if (result.getResultCode() == RESULT_OK) {
+                // 当返回结果是OK时，重新创建当前Activity
+                this.recreate();
+            }
+            // 可以根据需要处理RESULT_CANCELED的情况
+        });
 
         initView();
     }
@@ -98,17 +111,36 @@ public class PoetryActivity extends AppCompatActivity {
             }
             commentTextView.setText(commentJoiner.toString());
         } else {
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) commentTextView.getLayoutParams();
-            params.setMargins(0, -15, 0, -15);
-            commentTextView.setLayoutParams(params);
+            commentTextView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            setResult(RESULT_OK);
             finish();
+        } else if (item.getItemId() == R.id.poetry_edit_item) {
+            Toast.makeText(this, R.string.dev_tip, Toast.LENGTH_SHORT).show();
+
+//            Intent intent = new Intent(this, EditActivity.class);
+//            intent.putExtra("type", typeIndex);
+//            intent.putExtra("index", index);
+//
+//            launcher.launch(intent);
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_poetry_content_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(RESULT_OK);
     }
 }

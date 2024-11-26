@@ -59,4 +59,8 @@ public class MainActivity extends AppCompatActivity {
             Objects.requireNonNull(recycler.getAdapter()).notifyItemInserted(data.readData().size() - 1);
         });
     }
+
+    public void onLoadDefaultDataClick(MenuItem item) {
+        data.writeDefaultData();
+    }
 }

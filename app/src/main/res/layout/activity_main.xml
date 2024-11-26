@@ -41,6 +41,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="20dp"
-            android:onClick="onAddTypeButtonClicked" />
+            android:onClick="onAddTypeButtonClicked"
+            android:theme="@style/floating_action_button_theme"/>
 
 </RelativeLayout>

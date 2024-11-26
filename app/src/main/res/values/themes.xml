@@ -1,12 +1,19 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.ReviewOfAncientPoetry" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
+        <!-- light theme -->
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorAccent">@color/blue</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHighlight">@color/dLight_blue</item>
     </style>
 
     <style name="Theme.ReviewOfAncientPoetry" parent="Base.Theme.ReviewOfAncientPoetry" />
 
-    <style name="toolbar_theme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="toolbar_theme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:homeAsUpIndicator">@drawable/ic_angel_left</item>
+    </style>
+    <style name="floating_action_button_theme" parent="Base.Theme.ReviewOfAncientPoetry">
+        <item name="android:backgroundTint">@color/gray</item>
     </style>
 </resources>

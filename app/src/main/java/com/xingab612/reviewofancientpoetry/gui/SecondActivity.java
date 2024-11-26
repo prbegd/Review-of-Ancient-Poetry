@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,11 +36,18 @@ public class SecondActivity extends AppCompatActivity {
     private ListView list;
     private ArrayList<AncientPoetry> poetryList;
     private AncientPoetryAdapter adapter;
+    private ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                this.recreate();
+            }
+        });
 
         init();
     }
@@ -71,7 +80,7 @@ public class SecondActivity extends AppCompatActivity {
             Intent intent = new Intent(this, PoetryActivity.class);
             intent.putExtra("type", index);
             intent.putExtra("index", position);
-            startActivity(intent);
+            launcher.launch(intent);
         });
 
         list.setOnItemLongClickListener((parent, view, position, id) -> {

@@ -13,6 +13,5 @@
             android:layout_marginStart="20dp"
             android:autoSizeMaxTextSize="25sp"
             android:autoSizeMinTextSize="20sp"
-            android:autoSizeTextType="uniform"
-            android:textColor="@color/black"/>
+            android:autoSizeTextType="uniform"/>
 </RelativeLayout>

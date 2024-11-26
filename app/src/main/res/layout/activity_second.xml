@@ -38,6 +38,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="20dp"
-            android:onClick="onAddPoetryButtonClicked" />
+            android:onClick="onAddPoetryButtonClicked"
+            android:theme="@style/floating_action_button_theme" />
 
 </RelativeLayout>

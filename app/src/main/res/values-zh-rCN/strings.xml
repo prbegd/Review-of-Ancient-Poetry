@@ -24,4 +24,6 @@
     <string name="appreciation">赏析: %1$s</string>
     <string name="paraphrase">译文: %1$s</string>
     <string name="comments">注释:</string>
+    <string name="edit">修改</string>
+    <string name="dev_tip">还在开发中~</string>
 </resources>

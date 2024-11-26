@@ -5,14 +5,16 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".gui.PoetryActivity">
+        tools:context=".gui.EditActivity">
+
     <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/poetry_toolbar_layout"
+            android:id="@+id/edit_toolbar_layout"
             android:theme="@style/toolbar_theme">
+
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/poetry_toolbar"
+                android:id="@+id/edit_poetry_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
@@ -20,22 +22,24 @@
                 tools:ignore="MissingConstraints"
                 app:title="@string/nul"
                 app:titleTextColor="@android:color/white"
-                app:navigationIcon="@drawable/ic_angel_left"
-                />
+                app:navigationIcon="@drawable/ic_angel_left" />
     </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/poetry_toolbar_layout"
+            android:layout_below="@id/edit_toolbar_layout"
             android:scrollbars="none">
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:id="@+id/poetry_poetry_name"
+                    android:id="@+id/edit_poetry_name"
                     android:gravity="center"
                     android:layout_marginTop="15dp"
                     android:autoSizeMaxTextSize="28sp"
@@ -44,40 +48,40 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:id="@+id/poetry_poetry_author"
+                    android:id="@+id/edit_poetry_author"
                     android:gravity="center"
                     android:autoSizeMaxTextSize="22sp"
                     android:autoSizeMinTextSize="17sp"
-                    android:autoSizeTextType="uniform"/>
+                    android:autoSizeTextType="uniform" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/poetry_poetry_content"
-                    android:layout_margin="15dp"
-                    />
+                    android:layout_margin="15dp" />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:id="@+id/poetry_paraphrase"
-                    android:textIsSelectable="true"/>
+                    android:id="@+id/edit_paraphrase" />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:id="@+id/poetry_comment"
-                    android:textIsSelectable="true"
-                    />
+                    android:id="@+id/edit_comment"
+                    android:textIsSelectable="true" />
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:id="@+id/poetry_appreciation"
-                    android:textIsSelectable="true"/>
+                    android:id="@+id/edit_appreciation" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

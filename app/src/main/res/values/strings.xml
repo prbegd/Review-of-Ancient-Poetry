@@ -25,4 +25,6 @@
     <string name="appreciation">Aappreciation: %1$s</string>
     <string name="paraphrase">Paraphrase: %1$s</string>
     <string name="comments">Comments:</string>
+    <string name="edit">Edit</string>
+    <string name="dev_tip">Still in development~</string>
 </resources>

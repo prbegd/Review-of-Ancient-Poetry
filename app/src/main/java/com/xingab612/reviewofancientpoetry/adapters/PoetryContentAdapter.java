@@ -16,12 +16,15 @@ import com.xingab612.reviewofancientpoetry.R;
 import com.xingab612.reviewofancientpoetry.beans.AncientPoetry;
 import com.xingab612.reviewofancientpoetry.beans.DisplayChar;
 import com.xingab612.reviewofancientpoetry.beans.Kanji;
+import com.xingab612.reviewofancientpoetry.beans.Punctuation;
 import com.xujiaji.happybubble.BubbleDialog;
+
+import java.util.ArrayList;
 
 public class PoetryContentAdapter extends RecyclerView.Adapter<PoetryContentAdapter.PoetryContentHolder> {
     private final AncientPoetry poetry;
     private final Activity activity;
-    private int kanjiIndex = 0;
+    private final ArrayList<PoetryContentHolder> holders = new ArrayList<>();
 
     public PoetryContentAdapter(Activity activity, AncientPoetry poetry) {
         this.poetry = poetry;
@@ -32,12 +35,13 @@ public class PoetryContentAdapter extends RecyclerView.Adapter<PoetryContentAdap
     @Override
     public PoetryContentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = View.inflate(activity, R.layout.poetry_content, null);
-        return new PoetryContentHolder(view);
+        PoetryContentHolder holder = new PoetryContentHolder(view);
+        holders.add(holder);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull PoetryContentHolder holder, int position) {
-        Log.d("PoetryContentAdapter", "onBindViewHolder: " + position);
         DisplayChar displayChar = poetry.getDisplayChars().get(position);
         holder.kanji.setText(String.valueOf(displayChar.getChar()));
         if (displayChar instanceof Kanji kanji) {
@@ -45,24 +49,50 @@ public class PoetryContentAdapter extends RecyclerView.Adapter<PoetryContentAdap
             if (pinyin != null) {
                 holder.pinyin.setText(pinyin.getString());
             }
+        }
+        if (position == poetry.getDisplayChars().size() - 1) { // 因为确定了Manager的操作才选择这种方式
+            onViewHoldersBound();
+        }
+    }
 
-            AncientPoetry.Comment comment = poetry.getCommentForKanji(kanjiIndex);
+    private void onViewHoldersBound() {
+        for (int i = 0, j =0; i < holders.size(); i++, j++) {
+            if (poetry.getDisplayChars().get(i) instanceof Punctuation) {
+                holders.remove(j);
+                j--;// 因为移除了，所以索引要减一
+            }
+        }
+        for (int i = 0; i < holders.size(); i++) {
+            PoetryContentHolder holder = holders.get(i);
+            AncientPoetry.Comment comment = poetry.getCommentForKanji(i);
+            Log.d("PoetryContentAdapter", "comment: " + comment);
             if (comment != null) {
                 holder.kanji.setOnClickListener(v -> {
+                    for (int j = comment.start(); j < comment.end(); j++) {
+                        holders.get(j).kanji.setBackgroundColor(activity.getColor(R.color.blue));
+                    }
                     View bubbleContent = LayoutInflater.from(activity).inflate(R.layout.comment_bubble, null);
                     ((TextView) bubbleContent.findViewById(R.id.comment_text)).setText(comment.content());
-                    BubbleDialog bubble = new BubbleDialog(activity);
-                    bubble.setBubbleContentView(bubbleContent);
-                    bubble.setClickedView(v);
-                    bubble.setTransParentBackground();
+                    BubbleDialog bubble = getBubbleDialog(v, bubbleContent, comment);
                     bubble.show();
                 });
                 TextPaint paint = holder.kanji.getPaint();
-                paint.setColor(activity.getColor(R.color.blue));
                 paint.setFlags(Paint.UNDERLINE_TEXT_FLAG);
             }
-            kanjiIndex++;
         }
+    }
+
+    private @NonNull BubbleDialog getBubbleDialog(View v, View bubbleContent, AncientPoetry.Comment comment) {
+        BubbleDialog bubble = new BubbleDialog(activity);
+        bubble.setBubbleContentView(bubbleContent);
+        bubble.setClickedView(v);
+        bubble.setTransParentBackground();
+        bubble.setOnDismissListener(d -> {
+            for (int i = comment.start(); i < comment.end(); i++) {
+                holders.get(i).kanji.setBackgroundColor(activity.getColor(R.color.transparent));
+            }
+        });
+        return bubble;
     }
 
     @Override
