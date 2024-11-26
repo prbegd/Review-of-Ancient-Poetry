@@ -121,13 +121,11 @@ public class PoetryActivity extends AppCompatActivity {
             setResult(RESULT_OK);
             finish();
         } else if (item.getItemId() == R.id.poetry_edit_item) {
-            Toast.makeText(this, R.string.dev_tip, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, EditActivity.class);
+            intent.putExtra("type", typeIndex);
+            intent.putExtra("index", index);
 
-//            Intent intent = new Intent(this, EditActivity.class);
-//            intent.putExtra("type", typeIndex);
-//            intent.putExtra("index", index);
-//
-//            launcher.launch(intent);
+            launcher.launch(intent);
         }
         return true;
     }
